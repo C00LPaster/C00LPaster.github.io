@@ -38,7 +38,7 @@ footer{text-align:center; padding:40px; color:#555; font-size:14px;}
 <canvas id="space"></canvas>
 
 <div id="cookieBanner" class="cookie-banner">
-  <p class="cookie-text">🍪 <b>Notice:</b> Please enable cookies so we can save your votes and notes locally!</p>
+  <p class="cookie-text">🍪 <b>Notice:</b> Please enable storage parameters so we can save your notes locally!</p>
   <button class="button cookie-btn" onclick="acceptCookies()">Got It!</button>
 </div>
 
@@ -47,7 +47,7 @@ footer{text-align:center; padding:40px; color:#555; font-size:14px;}
   <p>LIFT Party — Leaders Inspiring Fellowship and Teamwork</p>
   <h2 id="votes">Liam's Votes: 0</h2>
   <button class="button" onclick="vote()">Vote Liam</button>
-  <p id="status"></p>
+  <p id="status" style="margin-top: 15px; font-weight: bold; color: #7fa7ff;"></p>
 </header>
 
 <section>
@@ -83,18 +83,18 @@ footer{text-align:center; padding:40px; color:#555; font-size:14px;}
 <footer>© 2026 Liam for Peace Officer</footer>
 
 <script>
-function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Lax";
+function saveData(key, value) {
+    var date = new Date();
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    document.cookie = key + "=" + encodeURIComponent(value) + "; expires=" + date.toUTCString() + "; path=/; SameSite=Lax";
+    try { localStorage.setItem(key, value); } catch(e) {}
+    try { sessionStorage.setItem(key, value); } catch(e) {}
 }
 
-function getCookie(name) {
-    var nameEQ = name + "=";
+function getData(key) {
+    try { var sess = sessionStorage.getItem(key); if(sess) return sess; } catch(e) {}
+    try { var local = localStorage.getItem(key); if(local) return local; } catch(e) {}
+    var nameEQ = key + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
@@ -105,7 +105,7 @@ function getCookie(name) {
 }
 
 window.onload = function() {
-    if (!getCookie("cookie_consent_dismissed")) {
+    if (!getData("cookie_consent_dismissed")) {
         document.getElementById("cookieBanner").classList.add("show");
     }
     updateVotes();
@@ -113,7 +113,7 @@ window.onload = function() {
 };
 
 function acceptCookies() {
-    setCookie("cookie_consent_dismissed", "true", 365);
+    saveData("cookie_consent_dismissed", "true");
     document.getElementById("cookieBanner").classList.remove("show");
 }
 
@@ -131,25 +131,25 @@ function tab(id){
     }
 }
 
-var votes = Number(getCookie("votes")) || 0;
+var votes = Number(getData("votes")) || 0;
 
 function updateVotes(){
     document.getElementById("votes").innerHTML = "Liam's Votes: " + votes;
 }
 
 function vote(){
-    if(getCookie("voted")){
-        document.getElementById("status").innerHTML = "You already voted on this device!";
+    if(getData("voted") === "yes"){
+        document.getElementById("status").innerHTML = "Nice try, you already voted on this device!";
         return;
     }
     votes++;
-    setCookie("votes", votes, 365);
-    setCookie("voted", "yes", 365);
+    saveData("votes", votes);
+    saveData("voted", "yes");
     document.getElementById("status").innerHTML = "Thanks for your support!";
     updateVotes();
 }
 
-var rawMessages = getCookie("messages");
+var rawMessages = getData("messages");
 var messages = rawMessages ? JSON.parse(rawMessages) : [];
 
 function sendMessage(){
@@ -157,7 +157,7 @@ function sendMessage(){
     var m = document.getElementById("msg").value.trim();
     if(!n || !m) return;
     messages.push({name:n, text:m});
-    setCookie("messages", JSON.stringify(messages), 365);
+    saveData("messages", JSON.stringify(messages));
     document.getElementById("name").value="";
     document.getElementById("msg").value="";
     loadMessages();
@@ -175,11 +175,10 @@ function loadMessages(){
     }
 }
 
-// SIMPLIFIED STABLE BACKGROUND ENGINE 
 var canvas = document.getElementById("space");
 var ctx = canvas.getContext("2d");
 var mode = Math.random() < 0.5 ? "stars" : "bubbles";
-var stars = []; var bubbles = []; var pops = [];
+var stars = []; var bubbles = [];
 var mouse = {x:-1000, y:-1000};
 
 function resize(){
