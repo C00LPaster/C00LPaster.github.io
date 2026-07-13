@@ -1,899 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Liam for Peace Officer</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-font-family:Arial, sans-serif;
-color:white;
-background:black;
-overflow-x:hidden;
-}
-
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-pointer-events:none;
-}
-
-
-
-header{
-text-align:center;
-padding:80px 20px;
-}
-
-
-
-h1{
-font-size:clamp(35px,6vw,60px);
-}
-
-
-header p{
-font-size:20px;
-color:#ddd;
-}
-
-
-
-.button{
-
-background:white;
-color:black;
-
-border:none;
-
-padding:15px 35px;
-
-border-radius:40px;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-
-
-section{
-
-max-width:900px;
-
-margin:auto;
-
-padding:20px;
-
-}
-
-
-
-.card{
-
-background:rgba(255,255,255,.12);
-
-backdrop-filter:blur(12px);
-
-border:1px solid rgba(255,255,255,.2);
-
-border-radius:25px;
-
-padding:30px;
-
-margin:25px 0;
-
-}
-
-
-
-h2{
-
-color:#7fa7ff;
-
-}
-
-
-
-.tabs{
-
-display:flex;
-
-gap:10px;
-
-}
-
-
-
-.tab{
-
-padding:12px 25px;
-
-border:none;
-
-border-radius:20px;
-
-cursor:pointer;
-
-}
-
-
-
-.active{
-
-background:#6c9cff;
-
-color:white;
-
-}
-
-
-
-input,textarea{
-
-width:100%;
-
-padding:15px;
-
-margin:10px 0;
-
-border-radius:15px;
-
-border:none;
-
-}
-
-
-
-.message{
-
-background:rgba(255,255,255,.1);
-
-padding:15px;
-
-border-radius:15px;
-
-margin:10px 0;
-
-}
-
-
-
-footer{
-
-text-align:center;
-
-padding:40px;
-
-color:#aaa;
-
-}
-
-
-
+*{box-sizing:border-box; transition: all 0.2s ease;}
+body{margin:0; font-family: Arial, sans-serif; color:white; background:#0a0a0c; overflow-x:hidden;}
+canvas{position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none;}
+header{text-align:center; padding:80px 20px 40px 20px;}
+h1{font-size:clamp(35px,6vw,60px); font-weight:800; margin-bottom:10px;}
+header p{font-size:20px; color:#b0c4de; margin-top:0;}
+.button{background:white; color:black; border:none; padding:15px 35px; border-radius:50px; font-size:18px; font-weight:700; cursor:pointer; margin-top:15px; box-shadow: 0 4px 15px rgba(255,255,255,0.15);}
+.button:hover{transform: translateY(-2px); background: #6c9cff; color: white;}
+section{max-width:850px; margin:auto; padding:20px;}
+.card{background:rgba(255,255,255,.05); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.12); border-radius:25px; padding:35px; margin:20px 0;}
+h2{color:#7fa7ff; font-size:24px; margin-top:0;}
+.tabs{display:flex; gap:10px; margin-bottom:25px; background:rgba(255,255,255,0.04); padding:5px; border-radius:20px;}
+.tab{flex:1; padding:12px; border:none; border-radius:15px; cursor:pointer; background:transparent; color:#aaa; font-weight:600; text-align:center;}
+.tab.active{background:#6c9cff; color:white;}
+ul{padding-left:20px; margin-bottom:25px;}
+ul li{margin:10px 0; font-size:16px; color:#e0e6ed;}
+input, textarea{width:100%; padding:15px; margin:10px 0; border-radius:15px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.07); color:white; font-size:16px; outline:none;}
+textarea{height:100px; resize:none;}
+.message{background:rgba(255,255,255,.04); padding:15px; border-radius:15px; margin:10px 0; border-left:5px solid #6c9cff;}
+.message b{color:#7fa7ff;}
+.message p{margin:5px 0 0 0; color:#e2e8f0;}
+footer{text-align:center; padding:40px; color:#555; font-size:14px;}
+.cookie-banner{position:fixed; bottom:-200px; left:50%; transform:translateX(-50%); width:calc(100% - 40px); max-width:550px; background:rgba(15,15,25,0.95); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.5); z-index:99999; display:flex; align-items:center; justify-content:space-between; gap:15px; opacity:0;}
+.cookie-banner.show{bottom:20px; opacity:1;}
+.cookie-text{font-size:14px; color:#e2e8f0; margin:0;}
+.cookie-btn{padding:8px 20px; font-size:14px; margin-top:0;}
 </style>
-
 </head>
-
-
 <body>
-
 
 <canvas id="space"></canvas>
 
-
+<div id="cookieBanner" class="cookie-banner">
+  <p class="cookie-text">🍪 <b>Notice:</b> Please enable cookies so we can save your votes and notes locally!</p>
+  <button class="button cookie-btn" onclick="acceptCookies()">Got It!</button>
+</div>
 
 <header>
-
-<h1>🛡️ Liam for Peace Officer</h1>
-
-<p>
-LIFT Party — Leaders Inspiring Fellowship and Teamwork
-</p>
-
-
-<h2 id="votes">
-Liam's Votes: 0
-</h2>
-
-
-<button class="button" onclick="vote()">
-Vote Liam
-</button>
-
-
-<p id="status"></p>
-
-
+  <h1>🛡️ Liam for Peace Officer</h1>
+  <p>LIFT Party — Leaders Inspiring Fellowship and Teamwork</p>
+  <h2 id="votes">Liam's Votes: 0</h2>
+  <button class="button" onclick="vote()">Vote Liam</button>
+  <p id="status"></p>
 </header>
 
-
-
-
 <section>
+  <div class="card">
+    <div class="tabs">
+      <button id="tabHome" class="tab active" onclick="tab('home')">🏠 About</button>
+      <button id="tabReviews" class="tab" onclick="tab('reviews')">⭐ Notes</button>
+    </div>
 
+    <div id="home">
+      <h2>👋 About Me</h2>
+      <p>Hi! I'm Liam, running for Peace Officer. My goal is to help create a safer, kinder, and more respectful school environment.</p>
+      <h2>⭐ My Goals</h2>
+      <ul>
+        <li>Promote respect across all student bodies</li>
+        <li>Encourage clear, honest teamwork</li>
+        <li>Listen closely to what students actually need</li>
+        <li>Help actively maintain a peaceful atmosphere</li>
+      </ul>
+      <h2>💬 Leave a Note</h2>
+      <input id="name" placeholder="Your name">
+      <textarea id="msg" placeholder="Write a message to pin to your dashboard..."></textarea>
+      <button class="button" onclick="sendMessage()">Save Note</button>
+    </div>
 
-<div class="card">
-
-
-<div class="tabs">
-
-<button class="tab active" onclick="tab('home',this)">
-🏠 Home
-</button>
-
-
-<button class="tab" onclick="tab('reviews',this)">
-⭐ Reviews
-</button>
-
-
-</div>
-
-
-
-<div id="home">
-
-
-<h2>👋 About Me</h2>
-
-<p>
-Hi! I'm Liam, running for Peace Officer.
-My goal is to help create a safer, kinder, and more respectful school environment.
-</p>
-
-
-
-<h2>⭐ My Goals</h2>
-
-
-<ul>
-
-<li>Promote respect</li>
-
-<li>Encourage teamwork</li>
-
-<li>Listen to students</li>
-
-<li>Help maintain peace</li>
-
-</ul>
-
-
-
-
-<h2>💬 Leave Liam a Message</h2>
-
-
-<input id="name" placeholder="Your name">
-
-
-<textarea id="msg" placeholder="Write a message"></textarea>
-
-
-<button class="button" onclick="sendMessage()">
-Send
-</button>
-
-
-
-</div>
-
-
-
-
-
-<div id="reviews" style="display:none">
-
-
-<h2>⭐ Student Messages</h2>
-
-
-<div id="messages"></div>
-
-
-</div>
-
-
-
-</div>
-
-
+    <div id="reviews" style="display:none">
+      <h2>⭐ Saved Dashboard Notes</h2>
+      <div id="messages"></div>
+    </div>
+  </div>
 </section>
 
-
-
-
-<footer>
-
-© 2026 Liam for Peace Officer
-
-</footer>
-
-
-
-
+<footer>© 2026 Liam for Peace Officer</footer>
 
 <script>
-
-
-// TABS
-
-
-function tab(id,btn){
-
-document.getElementById("home").style.display="none";
-
-document.getElementById("reviews").style.display="none";
-
-
-document.getElementById(id).style.display="block";
-
-
-document.querySelectorAll(".tab")
-.forEach(x=>x.classList.remove("active"));
-
-
-btn.classList.add("active");
-
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/; SameSite=Lax";
 }
 
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
 
+window.onload = function() {
+    if (!getCookie("cookie_consent_dismissed")) {
+        document.getElementById("cookieBanner").classList.add("show");
+    }
+    updateVotes();
+    loadMessages();
+};
 
+function acceptCookies() {
+    setCookie("cookie_consent_dismissed", "true", 365);
+    document.getElementById("cookieBanner").classList.remove("show");
+}
 
+function tab(id){
+    if(id === 'home') {
+        document.getElementById("home").style.display = "block";
+        document.getElementById("reviews").style.display = "none";
+        document.getElementById("tabHome").classList.add("active");
+        document.getElementById("tabReviews").classList.remove("active");
+    } else {
+        document.getElementById("home").style.display = "none";
+        document.getElementById("reviews").style.display = "block";
+        document.getElementById("tabHome").classList.remove("active");
+        document.getElementById("tabReviews").classList.add("active");
+    }
+}
 
-// VOTES
-
-
-let votes =
-Number(localStorage.getItem("votes")) || 0;
-
+var votes = Number(getCookie("votes")) || 0;
 
 function updateVotes(){
-
-document.getElementById("votes").innerHTML =
-"Liam's Votes: " + votes;
-
+    document.getElementById("votes").innerHTML = "Liam's Votes: " + votes;
 }
-
-
-updateVotes();
-
-
 
 function vote(){
-
-if(localStorage.getItem("voted")){
-
-document.getElementById("status").innerHTML =
-"You already voted!";
-
-return;
-
+    if(getCookie("voted")){
+        document.getElementById("status").innerHTML = "You already voted on this device!";
+        return;
+    }
+    votes++;
+    setCookie("votes", votes, 365);
+    setCookie("voted", "yes", 365);
+    document.getElementById("status").innerHTML = "Thanks for your support!";
+    updateVotes();
 }
 
-
-votes++;
-
-
-localStorage.setItem(
-"votes",
-votes
-);
-
-
-localStorage.setItem(
-"voted",
-"yes"
-);
-
-
-document.getElementById("status").innerHTML =
-"Thanks for voting!";
-
-
-updateVotes();
-
-}
-
-
-
-
-
-
-
-// MESSAGES
-
-
-let messages =
-JSON.parse(localStorage.getItem("messages")) || [];
-
-
+var rawMessages = getCookie("messages");
+var messages = rawMessages ? JSON.parse(rawMessages) : [];
 
 function sendMessage(){
-
-let n =
-document.getElementById("name").value;
-
-
-let m =
-document.getElementById("msg").value;
-
-
-
-if(!n || !m)
-return;
-
-
-
-messages.push({
-
-name:n,
-
-text:m
-
-});
-
-
-localStorage.setItem(
-"messages",
-JSON.stringify(messages)
-);
-
-
-
-document.getElementById("name").value="";
-
-document.getElementById("msg").value="";
-
-
-loadMessages();
-
+    var n = document.getElementById("name").value.trim();
+    var m = document.getElementById("msg").value.trim();
+    if(!n || !m) return;
+    messages.push({name:n, text:m});
+    setCookie("messages", JSON.stringify(messages), 365);
+    document.getElementById("name").value="";
+    document.getElementById("msg").value="";
+    loadMessages();
 }
-
-
-
-
 
 function loadMessages(){
-
-let box =
-document.getElementById("messages");
-
-
-box.innerHTML="";
-
-
-
-messages.forEach(x=>{
-
-
-box.innerHTML += `
-
-<div class="message">
-
-<b>${x.name}</b>
-
-<p>${x.text}</p>
-
-</div>
-
-`;
-
-});
-
-
+    var box = document.getElementById("messages");
+    box.innerHTML="";
+    if(messages.length === 0){
+        box.innerHTML = "<p style='color:#666;'>No local notes saved yet.</p>";
+        return;
+    }
+    for(var i=0; i<messages.length; i++) {
+        box.innerHTML += '<div class="message"><b>' + messages[i].name + '</b><p>' + messages[i].text + '</p></div>';
+    }
 }
 
-
-loadMessages();
-
-
-
-
-
-
-
-// RANDOM BACKGROUND
-
-
-const canvas =
-document.getElementById("space");
-
-
-const ctx =
-canvas.getContext("2d");
-
-
-
-let mode =
-Math.random()<0.5
-? "stars"
-: "bubbles";
-
-
-
-let stars=[];
-
-let bubbles=[];
-
-let pops=[];
-
-
-
-let mouse={
-
-x:-1000,
-
-y:-1000
-
-};
-
-
-
+// SIMPLIFIED STABLE BACKGROUND ENGINE 
+var canvas = document.getElementById("space");
+var ctx = canvas.getContext("2d");
+var mode = Math.random() < 0.5 ? "stars" : "bubbles";
+var stars = []; var bubbles = []; var pops = [];
+var mouse = {x:-1000, y:-1000};
 
 function resize(){
-
-canvas.width=innerWidth;
-
-canvas.height=innerHeight;
-
-
-
-if(mode==="stars")
-createStars();
-
-else
-createBubbles();
-
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    if(mode === "stars") createStars(); else createBubbles();
 }
-
-
-
-window.onresize=resize;
-
-
-
-
-window.onmousemove=e=>{
-
-mouse.x=e.clientX;
-
-mouse.y=e.clientY;
-
-};
-
-
-
-
+window.onresize = resize;
+window.onmousemove = function(e){ mouse.x = e.clientX; mouse.y = e.clientY; };
 
 function createStars(){
-
-stars=[];
-
-
-let amount=Math.min(
-700,
-Math.max(
-100,
-(canvas.width*canvas.height)/5000
-)
-);
-
-
-
-for(let i=0;i<amount;i++){
-
-
-let s={
-
-x:Math.random()*canvas.width,
-
-y:Math.random()*canvas.height,
-
-homeX:0,
-
-homeY:0,
-
-size:Math.random()*2+1
-
-};
-
-
-
-s.homeX=s.x;
-
-s.homeY=s.y;
-
-
-stars.push(s);
-
-
+    stars = [];
+    var amount = Math.min(400, Math.max(50, (canvas.width * canvas.height) / 8000));
+    for(var i=0; i<amount; i++){
+        var s = { x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*2+1 };
+        s.homeX = s.x; s.homeY = s.y;
+        stars.push(s);
+    }
 }
-
-}
-
-
-
-
 
 function createBubbles(){
-
-bubbles=[];
-
-
-let amount=100;
-
-
-for(let i=0;i<amount;i++){
-
-
-bubbles.push({
-
-x:Math.random()*canvas.width,
-
-y:Math.random()*canvas.height,
-
-size:Math.random()*15+5,
-
-speed:Math.random()+0.3
-
-});
-
-
+    bubbles = [];
+    for(var i=0; i<60; i++){
+        bubbles.push({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*12+4, speed:Math.random()+0.2 });
+    }
 }
-
-}
-
-
-
-
-
-window.onclick=e=>{
-
-
-if(mode!=="bubbles")
-return;
-
-
-
-bubbles=bubbles.filter(b=>{
-
-
-let dx=b.x-e.clientX;
-
-let dy=b.y-e.clientY;
-
-
-let d=Math.sqrt(dx*dx+dy*dy);
-
-
-if(d<b.size+20){
-
-
-pops.push({
-
-x:b.x,
-
-y:b.y,
-
-r:b.size,
-
-life:1
-
-});
-
-
-return false;
-
-}
-
-
-return true;
-
-
-});
-
-
-};
-
-
-
-
-
-
 
 function animate(){
-
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-if(mode==="stars"){
-
-
-
-stars.forEach(s=>{
-
-
-let dx=s.x-mouse.x;
-
-let dy=s.y-mouse.y;
-
-
-let d=Math.sqrt(dx*dx+dy*dy);
-
-
-
-if(d<150 && d>0){
-
-let f=(150-d)/150;
-
-
-s.x+=(dx/d)*f*5;
-
-s.y+=(dy/d)*f*5;
-
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if(mode === "stars"){
+        stars.forEach(function(s){
+            var dx = s.x - mouse.x; var dy = s.y - mouse.y; var d = Math.sqrt(dx*dx+dy*dy);
+            if(d < 120 && d > 0){ var f = (120-d)/120; s.x += (dx/d)*f*4; s.y += (dy/d)*f*4; }
+            s.x += (s.homeX - s.x) * 0.02; s.y += (s.homeY - s.y) * 0.02;
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fillStyle="white"; ctx.fill();
+        });
+    } else {
+        ctx.fillStyle = "rgba(0,40,100,0.1)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        bubbles.forEach(function(b){
+            b.y -= b.speed; if(b.y < 0) b.y = canvas.height;
+            ctx.beginPath(); ctx.arc(b.x, b.y, b.size, 0, Math.PI*2); ctx.strokeStyle="rgba(255,255,255,0.3)"; ctx.stroke();
+        });
+    }
+    requestAnimationFrame(animate);
 }
-
-
-
-
-s.x+=(s.homeX-s.x)*.02;
-
-s.y+=(s.homeY-s.y)*.02;
-
-
-
-
-ctx.beginPath();
-
-ctx.arc(
-s.x,
-s.y,
-s.size,
-0,
-Math.PI*2
-);
-
-
-ctx.fillStyle="white";
-
-ctx.fill();
-
-
-
-});
-
-
-
-}
-
-else{
-
-
-
-ctx.fillStyle="rgba(0,100,220,.2)";
-
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-bubbles.forEach(b=>{
-
-
-b.y-=b.speed;
-
-
-
-if(b.y<0){
-
-b.y=canvas.height;
-
-}
-
-
-
-ctx.beginPath();
-
-ctx.arc(
-b.x,
-b.y,
-b.size,
-0,
-Math.PI*2
-);
-
-
-ctx.strokeStyle="white";
-
-ctx.stroke();
-
-
-});
-
-
-
-pops.forEach(p=>{
-
-
-p.r+=3;
-
-p.life-=0.03;
-
-
-ctx.beginPath();
-
-ctx.arc(
-p.x,
-p.y,
-p.r,
-0,
-Math.PI*2
-);
-
-
-ctx.strokeStyle=
-`rgba(255,255,255,${p.life})`;
-
-
-ctx.stroke();
-
-
-});
-
-
-pops=pops.filter(
-p=>p.life>0
-);
-
-
-
-}
-
-
-
-requestAnimationFrame(animate);
-
-
-}
-
-
-
-resize();
-
-animate();
-
-
+resize(); animate();
 </script>
-
-
 </body>
 </html>
