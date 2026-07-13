@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Liam for Peace Officer</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+color:white;
+background:black;
+overflow-x:hidden;
+}
+
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+pointer-events:none;
+}
+
+
+
+header{
+text-align:center;
+padding:80px 20px;
+}
+
+
+
+h1{
+font-size:clamp(35px,6vw,60px);
+}
+
+
+header p{
+font-size:20px;
+color:#ddd;
+}
+
+
+
+.button{
+
+background:white;
+color:black;
+
+border:none;
+
+padding:15px 35px;
+
+border-radius:40px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+
+
+section{
+
+max-width:900px;
+
+margin:auto;
+
+padding:20px;
+
+}
+
+
+
+.card{
+
+background:rgba(255,255,255,.12);
+
+backdrop-filter:blur(12px);
+
+border:1px solid rgba(255,255,255,.2);
+
+border-radius:25px;
+
+padding:30px;
+
+margin:25px 0;
+
+}
+
+
+
+h2{
+
+color:#7fa7ff;
+
+}
+
+
+
+.tabs{
+
+display:flex;
+
+gap:10px;
+
+}
+
+
+
+.tab{
+
+padding:12px 25px;
+
+border:none;
+
+border-radius:20px;
+
+cursor:pointer;
+
+}
+
+
+
+.active{
+
+background:#6c9cff;
+
+color:white;
+
+}
+
+
+
+input,textarea{
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+border-radius:15px;
+
+border:none;
+
+}
+
+
+
+.message{
+
+background:rgba(255,255,255,.1);
+
+padding:15px;
+
+border-radius:15px;
+
+margin:10px 0;
+
+}
+
+
+
+footer{
+
+text-align:center;
+
+padding:40px;
+
+color:#aaa;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<canvas id="space"></canvas>
+
+
+
+<header>
+
+<h1>🛡️ Liam for Peace Officer</h1>
+
+<p>
+LIFT Party — Leaders Inspiring Fellowship and Teamwork
+</p>
+
+
+<h2 id="votes">
+Liam's Votes: 0
+</h2>
+
+
+<button class="button" onclick="vote()">
+Vote Liam
+</button>
+
+
+<p id="status"></p>
+
+
+</header>
+
+
+
+
+<section>
+
+
+<div class="card">
+
+
+<div class="tabs">
+
+<button class="tab active" onclick="tab('home',this)">
+🏠 Home
+</button>
+
+
+<button class="tab" onclick="tab('reviews',this)">
+⭐ Reviews
+</button>
+
+
+</div>
+
+
+
+<div id="home">
+
+
+<h2>👋 About Me</h2>
+
+<p>
+Hi! I'm Liam, running for Peace Officer.
+My goal is to help create a safer, kinder, and more respectful school environment.
+</p>
+
+
+
+<h2>⭐ My Goals</h2>
+
+
+<ul>
+
+<li>Promote respect</li>
+
+<li>Encourage teamwork</li>
+
+<li>Listen to students</li>
+
+<li>Help maintain peace</li>
+
+</ul>
+
+
+
+
+<h2>💬 Leave Liam a Message</h2>
+
+
+<input id="name" placeholder="Your name">
+
+
+<textarea id="msg" placeholder="Write a message"></textarea>
+
+
+<button class="button" onclick="sendMessage()">
+Send
+</button>
+
+
+
+</div>
+
+
+
+
+
+<div id="reviews" style="display:none">
+
+
+<h2>⭐ Student Messages</h2>
+
+
+<div id="messages"></div>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+<footer>
+
+© 2026 Liam for Peace Officer
+
+</footer>
+
+
+
+
+
+<script>
+
+
+// TABS
+
+
+function tab(id,btn){
+
+document.getElementById("home").style.display="none";
+
+document.getElementById("reviews").style.display="none";
+
+
+document.getElementById(id).style.display="block";
+
+
+document.querySelectorAll(".tab")
+.forEach(x=>x.classList.remove("active"));
+
+
+btn.classList.add("active");
+
+}
+
+
+
+
+
+// VOTES
+
+
+let votes =
+Number(localStorage.getItem("votes")) || 0;
+
+
+function updateVotes(){
+
+document.getElementById("votes").innerHTML =
+"Liam's Votes: " + votes;
+
+}
+
+
+updateVotes();
+
+
+
+function vote(){
+
+if(localStorage.getItem("voted")){
+
+document.getElementById("status").innerHTML =
+"You already voted!";
+
+return;
+
+}
+
+
+votes++;
+
+
+localStorage.setItem(
+"votes",
+votes
+);
+
+
+localStorage.setItem(
+"voted",
+"yes"
+);
+
+
+document.getElementById("status").innerHTML =
+"Thanks for voting!";
+
+
+updateVotes();
+
+}
+
+
+
+
+
+
+
+// MESSAGES
+
+
+let messages =
+JSON.parse(localStorage.getItem("messages")) || [];
+
+
+
+function sendMessage(){
+
+let n =
+document.getElementById("name").value;
+
+
+let m =
+document.getElementById("msg").value;
+
+
+
+if(!n || !m)
+return;
+
+
+
+messages.push({
+
+name:n,
+
+text:m
+
+});
+
+
+localStorage.setItem(
+"messages",
+JSON.stringify(messages)
+);
+
+
+
+document.getElementById("name").value="";
+
+document.getElementById("msg").value="";
+
+
+loadMessages();
+
+}
+
+
+
+
+
+function loadMessages(){
+
+let box =
+document.getElementById("messages");
+
+
+box.innerHTML="";
+
+
+
+messages.forEach(x=>{
+
+
+box.innerHTML += `
+
+<div class="message">
+
+<b>${x.name}</b>
+
+<p>${x.text}</p>
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+loadMessages();
+
+
+
+
+
+
+
+// RANDOM BACKGROUND
+
+
+const canvas =
+document.getElementById("space");
+
+
+const ctx =
+canvas.getContext("2d");
+
+
+
+let mode =
+Math.random()<0.5
+? "stars"
+: "bubbles";
+
+
+
+let stars=[];
+
+let bubbles=[];
+
+let pops=[];
+
+
+
+let mouse={
+
+x:-1000,
+
+y:-1000
+
+};
+
+
+
+
+function resize(){
+
+canvas.width=innerWidth;
+
+canvas.height=innerHeight;
+
+
+
+if(mode==="stars")
+createStars();
+
+else
+createBubbles();
+
+}
+
+
+
+window.onresize=resize;
+
+
+
+
+window.onmousemove=e=>{
+
+mouse.x=e.clientX;
+
+mouse.y=e.clientY;
+
+};
+
+
+
+
+
+function createStars(){
+
+stars=[];
+
+
+let amount=Math.min(
+700,
+Math.max(
+100,
+(canvas.width*canvas.height)/5000
+)
+);
+
+
+
+for(let i=0;i<amount;i++){
+
+
+let s={
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+homeX:0,
+
+homeY:0,
+
+size:Math.random()*2+1
+
+};
+
+
+
+s.homeX=s.x;
+
+s.homeY=s.y;
+
+
+stars.push(s);
+
+
+}
+
+}
+
+
+
+
+
+function createBubbles(){
+
+bubbles=[];
+
+
+let amount=100;
+
+
+for(let i=0;i<amount;i++){
+
+
+bubbles.push({
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+size:Math.random()*15+5,
+
+speed:Math.random()+0.3
+
+});
+
+
+}
+
+}
+
+
+
+
+
+window.onclick=e=>{
+
+
+if(mode!=="bubbles")
+return;
+
+
+
+bubbles=bubbles.filter(b=>{
+
+
+let dx=b.x-e.clientX;
+
+let dy=b.y-e.clientY;
+
+
+let d=Math.sqrt(dx*dx+dy*dy);
+
+
+if(d<b.size+20){
+
+
+pops.push({
+
+x:b.x,
+
+y:b.y,
+
+r:b.size,
+
+life:1
+
+});
+
+
+return false;
+
+}
+
+
+return true;
+
+
+});
+
+
+};
+
+
+
+
+
+
+
+function animate(){
+
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+if(mode==="stars"){
+
+
+
+stars.forEach(s=>{
+
+
+let dx=s.x-mouse.x;
+
+let dy=s.y-mouse.y;
+
+
+let d=Math.sqrt(dx*dx+dy*dy);
+
+
+
+if(d<150 && d>0){
+
+let f=(150-d)/150;
+
+
+s.x+=(dx/d)*f*5;
+
+s.y+=(dy/d)*f*5;
+
+}
+
+
+
+
+s.x+=(s.homeX-s.x)*.02;
+
+s.y+=(s.homeY-s.y)*.02;
+
+
+
+
+ctx.beginPath();
+
+ctx.arc(
+s.x,
+s.y,
+s.size,
+0,
+Math.PI*2
+);
+
+
+ctx.fillStyle="white";
+
+ctx.fill();
+
+
+
+});
+
+
+
+}
+
+else{
+
+
+
+ctx.fillStyle="rgba(0,100,220,.2)";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+bubbles.forEach(b=>{
+
+
+b.y-=b.speed;
+
+
+
+if(b.y<0){
+
+b.y=canvas.height;
+
+}
+
+
+
+ctx.beginPath();
+
+ctx.arc(
+b.x,
+b.y,
+b.size,
+0,
+Math.PI*2
+);
+
+
+ctx.strokeStyle="white";
+
+ctx.stroke();
+
+
+});
+
+
+
+pops.forEach(p=>{
+
+
+p.r+=3;
+
+p.life-=0.03;
+
+
+ctx.beginPath();
+
+ctx.arc(
+p.x,
+p.y,
+p.r,
+0,
+Math.PI*2
+);
+
+
+ctx.strokeStyle=
+`rgba(255,255,255,${p.life})`;
+
+
+ctx.stroke();
+
+
+});
+
+
+pops=pops.filter(
+p=>p.life>0
+);
+
+
+
+}
+
+
+
+requestAnimationFrame(animate);
+
+
+}
+
+
+
+resize();
+
+animate();
+
+
+</script>
+
+
+</body>
+</html>
