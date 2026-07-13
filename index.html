@@ -2,187 +2,192 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Liam for Peace Officer</title>
+<title>Liam For Peace Officer</title>
 
 <style>
+
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
-transition:.2s ease;
+transition:.25s;
+font-family:Arial,sans-serif;
 }
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#08090d;
+
+background:#090b15;
 color:white;
 overflow-x:hidden;
+
 }
 
 canvas{
+
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-z-index:0;
-pointer-events:none;
-}
+z-index:-1;
 
-header,section,footer{
-position:relative;
-z-index:1;
 }
 
 header{
+
+padding:80px 20px;
 text-align:center;
-padding:80px 20px 40px;
+
 }
 
 h1{
-font-size:clamp(35px,6vw,60px);
+
+font-size:clamp(45px,7vw,70px);
+
 }
 
-header p{
+.subtitle{
+
+margin-top:10px;
 font-size:20px;
-color:#b0c4de;
+color:#b8c9ff;
+
 }
 
 .button{
-background:white;
-color:black;
-border:0;
+
+margin-top:20px;
 padding:15px 35px;
 border-radius:50px;
+border:0;
+background:white;
+color:black;
+cursor:pointer;
 font-size:18px;
 font-weight:bold;
-cursor:pointer;
+
 }
 
 .button:hover{
-background:#6c9cff;
+
+background:#7da0ff;
 color:white;
 transform:translateY(-2px);
+
 }
 
 section{
-max-width:850px;
+
+max-width:950px;
 margin:auto;
 padding:20px;
+
 }
 
 .card{
-background:rgba(255,255,255,.05);
+
+background:rgba(255,255,255,.08);
 backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.12);
-border-radius:25px;
+border:1px solid rgba(255,255,255,.15);
 padding:35px;
+border-radius:25px;
+margin:25px 0;
+
 }
 
 h2{
-color:#7fa7ff;
+
+margin-bottom:15px;
+color:#89aaff;
+
 }
 
-.tabs{
+li{
+
+margin:10px 0;
+
+}
+
+.themeButtons{
+
 display:flex;
 gap:10px;
-margin-bottom:25px;
-background:#ffffff10;
-padding:5px;
-border-radius:20px;
+flex-wrap:wrap;
+
 }
 
-.tab{
-flex:1;
-padding:12px;
+.themeButtons button{
+
+padding:10px 18px;
+border-radius:20px;
 border:0;
-border-radius:15px;
-background:none;
-color:#aaa;
 cursor:pointer;
+
 }
 
-.tab.active{
-background:#6c9cff;
-color:white;
+.clicker{
+
+text-align:center;
+
 }
 
-input,textarea{
-width:100%;
+.points{
+
+font-size:40px;
+font-weight:bold;
+color:#ffd85b;
+margin:20px 0;
+
+}
+
+.upgrade{
+
+background:rgba(255,255,255,.08);
+border-radius:15px;
 padding:15px;
 margin:10px 0;
-border-radius:15px;
-border:1px solid #ffffff20;
-background:#ffffff10;
-color:white;
+cursor:pointer;
+
 }
 
-textarea{
-height:100px;
-resize:none;
-}
+.upgrade:hover{
 
-.message{
-background:#ffffff10;
-padding:15px;
-border-radius:15px;
-margin:10px 0;
-border-left:5px solid #6c9cff;
-}
+background:rgba(255,255,255,.18);
 
-.message b{
-color:#7fa7ff;
-}
-
-.cookie-banner{
-position:fixed;
-bottom:-200px;
-left:50%;
-transform:translateX(-50%);
-background:#111;
-padding:20px;
-border-radius:20px;
-z-index:9999;
-opacity:0;
-}
-
-.cookie-banner.show{
-bottom:20px;
-opacity:1;
 }
 
 footer{
-text-align:center;
+
 padding:40px;
-color:#777;
+text-align:center;
+color:#888;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<canvas id="space"></canvas>
-
-<div id="cookieBanner" class="cookie-banner">
-🍪 We use cookies to save your votes and reviews.
-<button class="button" onclick="acceptCookies()">OK</button>
-</div>
+<canvas id="bg"></canvas>
 
 <header>
 
-<h1>🛡️ Liam for Peace Officer</h1>
+<h1>🛡 Liam For Peace Officer</h1>
 
-<p>LIFT Party — Leaders Inspiring Fellowship and Teamwork</p>
+<p class="subtitle">
+LIFT Party • Leaders Inspiring Fellowship and Teamwork
+</p>
 
-<h2 id="votes">Liam's Votes: 0</h2>
+<button class="button"
+onclick="document.getElementById('clicker').scrollIntoView({behavior:'smooth'})">
 
-<button class="button" onclick="vote()">
-Vote Liam
+🎮 Support Clicker
+
 </button>
-
-<p id="status"></p>
 
 </header>
 
@@ -190,53 +195,108 @@ Vote Liam
 
 <div class="card">
 
-<div class="tabs">
-
-<button id="tabHome" class="tab active" onclick="tab('home')">
-🏠 About
-</button>
-
-<button id="tabReviews" class="tab" onclick="tab('reviews')">
-⭐ Reviews
-</button>
-
-</div>
-
-<div id="home">
-
 <h2>About Me</h2>
 
 <p>
-Hi! I'm Liam, running for Peace Officer.
-My goal is to create a safer, kinder, and more respectful school environment.
+
+Hi! I'm Liam.
+
+I'm running for Peace Officer because I want a safer,
+friendlier and more respectful school for everyone.
+
 </p>
+
+<br>
 
 <h2>Goals</h2>
 
 <ul>
-<li>Promote respect</li>
-<li>Encourage teamwork</li>
-<li>Listen to students</li>
-<li>Maintain peace</li>
+
+<li>🛡 Promote respect</li>
+
+<li>🤝 NO to bullying</li>
+
+<li>💬 Listen to students</li>
+
+<li>⭐ Create a peaceful environment</li>
+
 </ul>
 
-<h2>Leave a Review</h2>
+</div>
 
-<input id="name" placeholder="Your name">
+<div class="card">
 
-<textarea id="msg" placeholder="Write a message"></textarea>
+<h2>🎨 Theme</h2>
 
-<button class="button" onclick="sendMessage()">
-Save Review
+<div class="themeButtons">
+
+<button onclick="changeTheme('space')">
+
+🌌 Space
+
+</button>
+
+<button onclick="changeTheme('ocean')">
+
+🌊 Ocean
+
+</button>
+
+<button onclick="changeTheme('fire')">
+
+🔥 Fire
+
+</button>
+
+<button onclick="changeTheme('forest')">
+
+🌿 Forest
+
 </button>
 
 </div>
-<div id="reviews" style="display:none">
 
-<h2>⭐ Reviews</h2>
+</div>
+<div class="card clicker" id="clicker">
 
-<div id="messages"></div>
+<h2>🎮 Support Clicker</h2>
 
+<p>Support Points</p>
+
+<div class="points" id="points">0</div>
+
+<button class="button" onclick="clickSupport()">
+🛡 SUPPORT
+</button>
+
+<br><br>
+
+<div class="upgrade" onclick="buy(1)">
+⭐ upgrade 1<br>
+Owned: <span id="u1">0</span><br>
+Cost: <span id="c1">25</span><br>
++1 / click
+</div>
+
+<div class="upgrade" onclick="buy(2)">
+📢 upgrade 2<br>
+Owned: <span id="u2">0</span><br>
+Cost: <span id="c2">100</span><br>
++5 / click
+</div>
+
+<div class="upgrade" onclick="buy(3)">
+🛡 upgrade 3<br>
+Owned: <span id="u3">0</span><br>
+Cost: <span id="c3">500</span><br>
++20 / click
+</div>
+
+<div class="upgrade" onclick="buy(4)">
+👑 upgrade 4<br>
+Owned: <span id="u4">0</span><br>
+Cost: <span id="c4">2000</span><br>
++100 / click
 </div>
 
 </div>
@@ -244,654 +304,203 @@ Save Review
 </section>
 
 <footer>
-© 2026 Liam for Peace Officer
+
+© 2026 Liam For Peace Officer
+
 </footer>
-
-
 
 <script>
 
+let save = JSON.parse(localStorage.getItem("liamSave")) || {
 
-// COOKIE FUNCTIONS
+points:0,
 
-function setCookie(name,value,days){
+power:1,
 
-let date=new Date();
+theme:"space",
 
-date.setTime(
-date.getTime()+days*24*60*60*1000
-);
+owned:[0,0,0,0],
 
-document.cookie=
-name+"="+encodeURIComponent(value)+
-";expires="+date.toUTCString()+
-";path=/;SameSite=Lax";
-
-}
-
-
-
-function getCookie(name){
-
-let cookies=document.cookie.split(";");
-
-
-for(let i=0;i<cookies.length;i++){
-
-let c=cookies[i].trim();
-
-
-if(c.indexOf(name+"=")==0){
-
-return decodeURIComponent(
-c.substring(name.length+1)
-);
-
-}
-
-}
-
-
-return null;
-
-}
-
-
-
-
-// COOKIE NOTICE
-
-window.onload=function(){
-
-if(!getCookie("cookie_notice")){
-
-document
-.getElementById("cookieBanner")
-.classList.add("show");
-
-}
-
-
-updateVotes();
-
-loadMessages();
+cost:[25,100,500,2000]
 
 };
 
+let points=save.points;
+let power=save.power;
+let owned=save.owned;
+let cost=save.cost;
 
+function saveGame(){
 
-function acceptCookies(){
+save.points=points;
+save.power=power;
+save.owned=owned;
+save.cost=cost;
 
-setCookie(
-"cookie_notice",
-"yes",
-365
+localStorage.setItem(
+"liamSave",
+JSON.stringify(save)
 );
 
+}
 
-document
-.getElementById("cookieBanner")
-.classList.remove("show");
+function update(){
+
+document.getElementById("points").innerHTML=points;
+
+for(let i=1;i<=4;i++){
+
+document.getElementById("u"+i).innerHTML=
+owned[i-1];
+
+document.getElementById("c"+i).innerHTML=
+cost[i-1];
 
 }
 
+}
 
+function clickSupport(){
 
+points+=power;
 
-// TABS
+saveGame();
 
-function tab(id){
-
-
-let home=document.getElementById("home");
-
-let reviews=document.getElementById("reviews");
-
-let homeBtn=document.getElementById("tabHome");
-
-let reviewBtn=document.getElementById("tabReviews");
-
-
-
-if(id==="home"){
-
-
-home.style.display="block";
-
-reviews.style.display="none";
-
-
-homeBtn.classList.add("active");
-
-reviewBtn.classList.remove("active");
-
+update();
 
 }
 
-else{
+function buy(id){
 
+let i=id-1;
 
-home.style.display="none";
+let boost=[1,5,20,100];
 
-reviews.style.display="block";
+if(points<cost[i]) return;
 
+points-=cost[i];
 
-reviewBtn.classList.add("active");
+power+=boost[i];
 
-homeBtn.classList.remove("active");
+owned[i]++;
 
+cost[i]=Math.floor(cost[i]*1.5);
 
-}
+saveGame();
 
-
-}
-
-
-
-
-
-// VOTES (COOKIE ONLY)
-
-let votes =
-Number(getCookie("liam_votes")) || 0;
-
-
-
-function updateVotes(){
-
-document.getElementById("votes").innerHTML =
-"Liam's Votes: "+votes;
+update();
 
 }
+// THEMES
 
+function changeTheme(theme){
 
+save.theme=theme;
 
-
-function vote(){
-
-
-if(getCookie("liam_voted")){
-
-
-document.getElementById("status").innerHTML=
-"You already voted!";
-
-
-return;
-
-}
-
-
-
-votes++;
-
-
-setCookie(
-"liam_votes",
-votes,
-365
+localStorage.setItem(
+"liamSave",
+JSON.stringify(save)
 );
 
+switch(theme){
 
-setCookie(
-"liam_voted",
-"true",
-365
-);
+case "space":
 
+document.body.style.background=
+"linear-gradient(#090b15,#18274d)";
+break;
 
+case "ocean":
 
-document.getElementById("status").innerHTML=
-"Thanks for your support!";
+document.body.style.background=
+"linear-gradient(#00334d,#0077aa)";
+break;
 
+case "fire":
 
-updateVotes();
+document.body.style.background=
+"linear-gradient(#330000,#bb3e03)";
+break;
 
-}
+case "forest":
 
-
-
-
-// REVIEWS (COOKIE ONLY)
-
-
-let messages=[];
-
-
-function loadMessages(){
-
-
-let saved=getCookie("liam_reviews");
-
-
-if(saved){
-
-try{
-
-messages=JSON.parse(saved);
-
-}
-
-catch{
-
-messages=[];
+document.body.style.background=
+"linear-gradient(#0b2e13,#2d6a4f)";
+break;
 
 }
 
 }
 
 
-let box=document.getElementById("messages");
+// LOAD THEME
 
-box.innerHTML="";
+changeTheme(save.theme);
 
 
-if(messages.length===0){
+// BACKGROUND
 
-box.innerHTML=
-"<p style='color:#777'>No reviews yet.</p>";
-
-return;
-
-}
-
-
-
-messages.forEach(function(msg){
-
-
-box.innerHTML+=`
-
-<div class="message">
-
-<b>${msg.name}</b>
-
-<p>${msg.text}</p>
-
-</div>
-
-`;
-
-
-});
-
-
-}
-
-
-
-
-
-function sendMessage(){
-
-
-let name=
-document.getElementById("name")
-.value.trim();
-
-
-let text=
-document.getElementById("msg")
-.value.trim();
-
-
-
-
-// hidden message
-
-let adminName=
-["4D","min"].join("");
-
-let adminText=
-[
-"VOTE",
-"LIAM",
-"for",
-"GsSc",
-"240914!!"
-].join("");
-
-
-
-if(name===adminName && text===adminText){
-
-alert("🔐 Admin Mode Activated");
-
-return;
-
-}
-
-
-
-
-if(!name || !text){
-
-return;
-
-}
-
-
-
-messages.push({
-
-name:name,
-
-text:text
-
-});
-
-
-
-setCookie(
-"liam_reviews",
-JSON.stringify(messages),
-365
-);
-
-
-
-document.getElementById("name").value="";
-
-document.getElementById("msg").value="";
-
-
-loadMessages();
-
-}
-
-// BACKGROUND ENGINE
-
-let canvas=document.getElementById("space");
-
-let ctx=canvas.getContext("2d");
-
-
-let mode=Math.random()<0.5?"stars":"bubbles";
-
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
 
 let stars=[];
-
-let bubbles=[];
-
-
-let mouse={
-x:-9999,
-y:-9999
-};
-
-
-
-
 
 function resize(){
 
 canvas.width=window.innerWidth;
-
 canvas.height=window.innerHeight;
-
-
-
-if(mode==="stars"){
-
-createStars();
-
-}else{
-
-createBubbles();
-
-}
-
-
-}
-
-
-
-
-window.onresize=resize;
-
-
-window.onmousemove=function(e){
-
-mouse.x=e.clientX;
-
-mouse.y=e.clientY;
-
-};
-
-
-
-
-
-function createStars(){
 
 stars=[];
 
-
-let amount=Math.min(
-400,
-Math.max(
-60,
-(canvas.width*canvas.height)/8000
-)
-);
-
-
-
-for(let i=0;i<amount;i++){
-
-
-let x=Math.random()*canvas.width;
-
-let y=Math.random()*canvas.height;
-
+for(let i=0;i<140;i++){
 
 stars.push({
 
-x:x,
-
-y:y,
-
-homeX:x,
-
-homeY:y,
-
-size:Math.random()*2+1
-
-});
-
-
-}
-
-
-}
-
-
-
-
-
-function createBubbles(){
-
-bubbles=[];
-
-
-for(let i=0;i<70;i++){
-
-
-bubbles.push({
-
 x:Math.random()*canvas.width,
-
 y:Math.random()*canvas.height,
-
-size:Math.random()*12+4,
-
-speed:Math.random()+0.2
+r:Math.random()*2+1,
+v:Math.random()*0.6+0.2
 
 });
 
+}
 
 }
 
+window.addEventListener("resize",resize);
 
-}
+function draw(){
 
-
-
-
-
-
-function animate(){
-
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-if(mode==="stars"){
-
-
-stars.forEach(function(s){
-
-
-let dx=s.x-mouse.x;
-
-let dy=s.y-mouse.y;
-
-
-let distance=Math.sqrt(
-dx*dx+dy*dy
-);
-
-
-
-if(distance<120 && distance>0){
-
-
-let force=(120-distance)/120;
-
-
-s.x+=(dx/distance)*force*4;
-
-s.y+=(dy/distance)*force*4;
-
-
-}
-
-
-
-
-// return to original spot
-
-s.x+=(s.homeX-s.x)*0.03;
-
-s.y+=(s.homeY-s.y)*0.03;
-
-
-
-
-ctx.beginPath();
-
-ctx.arc(
-s.x,
-s.y,
-s.size,
-0,
-Math.PI*2
-);
-
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
 ctx.fillStyle="white";
 
-ctx.fill();
-
-
-
-});
-
-
-
-}else{
-
-
-ctx.fillStyle=
-"rgba(0,40,100,0.12)";
-
-
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-bubbles.forEach(function(b){
-
-
-b.y-=b.speed;
-
-
-
-if(b.y<0){
-
-b.y=canvas.height;
-
-}
-
-
-
+for(const s of stars){
 
 ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
 
-ctx.arc(
-b.x,
-b.y,
-b.size,
-0,
-Math.PI*2
-);
+s.y-=s.v;
 
+if(s.y<0){
 
-
-ctx.strokeStyle=
-"rgba(255,255,255,0.35)";
-
-
-ctx.stroke();
-
-
-
-});
-
+s.y=canvas.height;
+s.x=Math.random()*canvas.width;
 
 }
 
-
-
-requestAnimationFrame(
-animate
-);
-
-
 }
 
+requestAnimationFrame(draw);
 
-
+}
 
 resize();
-
-animate();
-
+update();
+draw();
 
 </script>
 
-
 </body>
-
 </html>
